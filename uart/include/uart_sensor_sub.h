@@ -9,6 +9,7 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
 //***[TBC] Need to include lib for pixy msgs***
+//***[TBC] Need to include lib for GPS msgs***
 
 // states data lib
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
@@ -22,23 +23,77 @@ namespace uart_comm
             UartSensorListener(ros::NodeHandle nh);
 
             void ImuCb(const sensor_msgs::Imu::ConstPtr &msg );
-            void MagCb(const sensor::msgs::MagneticField::ConstPtr &msg);
+            void MagCb(const sensor_msgs::MagneticField::ConstPtr &msg);
             //***[TBC] Need to add a new Cb for pixy***
+            //***[TBC] Need to add a new Cb for GPS***
 
-            void PoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
-            void TwistCb(const geometry_msgs::TwistWithCovarianceStamped::Constptr &msg);
+            //void PoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
+            //void TwistCb(const geometry_msgs::TwistWithCovarianceStamped::Constptr &msg);
+
+            union DataTrans
+            {
+                float data;
+                unsigned char data_byte[4];
+            };
+
+            union TimeTrans
+            {
+                uint32_t time;
+                unsigned char time_byte[4];
+            };
+            
 
         
         private:
             // Subscriber for sensor data
             ros::Subscriber ImuSub_;
             ros::Subscriber MagSub_;
-            ros::Subscriber PixySub_;
+           // ros::Subscriber PixySub_;
             //***[TBD] There are 3 pixy cameras, so there will be three subscribers***
+           // ros::Subscriber GpsSub_;
 
             // Subcriber for state data
-            ros::Subscriber PoseSub_;
-            ros::Subscriber TwistSub_;
+           // ros::Subscriber PoseSub_;
+           // ros::Subscriber TwistSub_;
+
+            // IMU
+            DataTrans _AccX;
+            DataTrans _AccY;
+            DataTrans _AccZ;
+            DataTrans _GyroX;
+            DataTrans _GyroY;
+            DataTrans _GyroZ;
+            TimeTrans _ImuTimeStamp;
+
+            // Magnetometer
+            DataTrans _MagX;
+            DataTrans _MagY;
+            DataTrans _MagZ;
+            TimeTrans _MagTimeStamp;
+
+            // Variables for Pixy and GPS [TBC]
+
+            //States
+            DataTrans _PosX;
+            DataTrans _PosY;
+            DataTrans _PosZ;
+            DataTrans _TwistX;
+            DataTrans _TwistY;
+            DataTrans _TwistZ;
+            DataTrans _Q1;
+            DataTrans _Q2;
+            DataTrans _Q3;
+            DataTrans _Q4;
+            DataTrans _OmegaX;
+            DataTrans _OmegaY;
+            DataTrans _OmegaZ;
+            TimeTrans _StateTimeStamp;
+
+
+
+
+
+
      };
 }
 
