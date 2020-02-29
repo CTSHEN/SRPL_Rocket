@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   tf
+  std_msgs
+  sensor_msgs
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,8 +106,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES srpl_rocket
+#  INCLUDE_DIRS include/srpl_rocket/uart
+#  LIBRARIES srpl_rocket/uart
 #  CATKIN_DEPENDS roscpp rospy tf
 #  DEPENDS system_lib
 )
@@ -116,7 +119,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include/srpl_rocket/uart
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -133,7 +136,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/srpl_rocket_node.cpp)
+ add_executable(uart_comm_node src/uart/src/node/uart_comm_node.cpp src/uart/src/uart_sensor_sub.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,9 +149,10 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+ target_link_libraries(uart_comm_node
+   ${catkin_LIBRARIES}
+#  include/srpl_rocket/uart/uart_sensor_sub.h
+ )
 
 #############
 ## Install ##

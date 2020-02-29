@@ -37,12 +37,14 @@ int main(int argc, char **argv)
 {
     // Setup ROS
     ros::init(argc, argv, "uart_comm");
-    ros::NodeHandle nh;
-    ros::Rate loop_rate(10);
+
+    
 
     ROS_INFO("UART Communication Node Start");
     // Create new uart_comm::UartSensorListener object
-    uart_comm::UartSensorListener node(nh);
+    uart_comm::UartSensorListener node;
+
+    ros::Rate loop_rate(10);
 
     // SETUP SERIAL WORLD
     int fid = -1;
@@ -136,7 +138,7 @@ int main(int argc, char **argv)
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[36]; // Accel, Gyro and Mag
+        unsigned char tx_buffer[1]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
@@ -179,7 +181,7 @@ int main(int argc, char **argv)
         *p_tx_buffer++ = node._MagZ.data_byte[3];
 
 
-        printf("fid 1=%d\n", fid );
+        //printf("fid 1=%d\n", fid );
     	
         if (fid != -1)
         {

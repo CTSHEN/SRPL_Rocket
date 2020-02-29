@@ -19,8 +19,9 @@ namespace uart_comm
     class UartSensorListener
     {
         public:
+			ros::NodeHandle nh;
             // constructor
-            UartSensorListener(ros::NodeHandle nh);
+            UartSensorListener();
 
             void ImuCb(const sensor_msgs::Imu::ConstPtr &msg );
             void MagCb(const sensor_msgs::MagneticField::ConstPtr &msg);
@@ -33,7 +34,8 @@ namespace uart_comm
             union DataTrans
             {
                 float data;
-                unsigned char data_byte[4];
+                //unsigned char data_byte[4];
+				uint8_t data_byte[4];
             };
 
             union TimeTrans
@@ -41,22 +43,8 @@ namespace uart_comm
                 uint32_t time;
                 unsigned char time_byte[4];
             };
-            
 
-        
-        private:
-            // Subscriber for sensor data
-            ros::Subscriber ImuSub_;
-            ros::Subscriber MagSub_;
-           // ros::Subscriber PixySub_;
-            //***[TBD] There are 3 pixy cameras, so there will be three subscribers***
-           // ros::Subscriber GpsSub_;
-
-            // Subcriber for state data
-           // ros::Subscriber PoseSub_;
-           // ros::Subscriber TwistSub_;
-
-            // IMU
+			// IMU
             DataTrans _AccX;
             DataTrans _AccY;
             DataTrans _AccZ;
@@ -88,6 +76,23 @@ namespace uart_comm
             DataTrans _OmegaY;
             DataTrans _OmegaZ;
             TimeTrans _StateTimeStamp;
+            
+
+        
+        private:
+			
+            // Subscriber for sensor data
+            ros::Subscriber ImuSub_;
+            ros::Subscriber MagSub_;
+           // ros::Subscriber PixySub_;
+            //***[TBD] There are 3 pixy cameras, so there will be three subscribers***
+           // ros::Subscriber GpsSub_;
+
+            // Subcriber for state data
+           // ros::Subscriber PoseSub_;
+           // ros::Subscriber TwistSub_;
+
+            
 
 
 
