@@ -143,7 +143,7 @@ int main(int argc, char **argv)
     	
         p_tx_buffer = &tx_buffer[0];
 
-        *p_tx_buffer++ = node._AccX.data_byte[0];
+       /* *p_tx_buffer++ = node._AccX.data_byte[0];
         *p_tx_buffer++ = node._AccX.data_byte[1];
         *p_tx_buffer++ = node._AccX.data_byte[2];
         *p_tx_buffer++ = node._AccX.data_byte[3];
@@ -178,7 +178,8 @@ int main(int argc, char **argv)
         *p_tx_buffer++ = node._MagZ.data_byte[0];
         *p_tx_buffer++ = node._MagZ.data_byte[1];
         *p_tx_buffer++ = node._MagZ.data_byte[2];
-        *p_tx_buffer++ = node._MagZ.data_byte[3];
+        *p_tx_buffer++ = node._MagZ.data_byte[3];*/
+	*p_tx_buffer++ = 'H';
 
 
         //printf("fid 1=%d\n", fid );
