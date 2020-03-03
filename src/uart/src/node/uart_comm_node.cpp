@@ -138,7 +138,7 @@ int main(int argc, char **argv)
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[1]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[6]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
@@ -180,6 +180,11 @@ int main(int argc, char **argv)
         *p_tx_buffer++ = node._MagZ.data_byte[2];
         *p_tx_buffer++ = node._MagZ.data_byte[3];*/
 	*p_tx_buffer++ = 'H';
+	*p_tx_buffer++ = 'E';
+	*p_tx_buffer++ = 'L';
+	*p_tx_buffer++ = 'L';
+	*p_tx_buffer++ = 'O';
+	*p_tx_buffer++ = ' ';
 
 
         //printf("fid 1=%d\n", fid );
