@@ -14,6 +14,10 @@
 // states data lib
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/TwistWithCovarianceStamped.h>
+
+// half precision float lib
+#include "half.hpp"
+
 namespace uart_comm
 {
     class UartSensorListener
