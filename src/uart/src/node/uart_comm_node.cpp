@@ -131,23 +131,24 @@ int main(int argc, char **argv)
     tcflush(fid, TCIOFLUSH);
 
     usleep(500000);   // 0.5 sec delay
-
+    
+    half_float::half testV  (123.456);
     
     while(ros::ok())
     {
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[6]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[2]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
 
-        *p_tx_buffer++ = node._AccX.data_byte[0];
+        /* *p_tx_buffer++ = node._AccX.data_byte[0];
         *p_tx_buffer++ = node._AccX.data_byte[1];
         *p_tx_buffer++ = node._AccX.data_byte[2];
         *p_tx_buffer++ = node._AccX.data_byte[3];
-       /* *p_tx_buffer++ = node._AccY.data_byte[0];
+        *p_tx_buffer++ = node._AccY.data_byte[0];
         *p_tx_buffer++ = node._AccY.data_byte[1];
         *p_tx_buffer++ = node._AccY.data_byte[2];
         *p_tx_buffer++ = node._AccY.data_byte[3];

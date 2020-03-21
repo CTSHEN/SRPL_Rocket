@@ -18,6 +18,9 @@
 // half precision float lib
 #include "half.hpp"
 
+#include <boost/variant.hpp>
+
+using half_float::half; 
 namespace uart_comm
 {
     class UartSensorListener
@@ -38,8 +41,9 @@ namespace uart_comm
             union DataTrans
             {
                 float data;
+                //half data;
                 //unsigned char data_byte[4];
-				uint8_t data_byte[4];
+				uint8_t data_byte[2];
             };
 
             union TimeTrans
@@ -47,6 +51,8 @@ namespace uart_comm
                 uint32_t time;
                 unsigned char time_byte[4];
             };
+            
+
 
 			// IMU
             DataTrans _AccX;

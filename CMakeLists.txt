@@ -120,6 +120,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include/srpl_rocket/uart
+  /home/srpl-nano1/Documents/boost_1_72_0/boost
   ${catkin_INCLUDE_DIRS}
 )
 
