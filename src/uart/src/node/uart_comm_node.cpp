@@ -132,7 +132,9 @@ int main(int argc, char **argv)
 
     usleep(500000);   // 0.5 sec delay
     
-    half_float::half testV  (123.456);
+    node._AccX =  half(123.456);
+    node.Pack[0] = (boost::get<uint16_t>(node._AccX) || 0xFF00) >> 8; // The high byte
+    node.Pack[1] = boost::get<uint16_t>(node._AccX) || 0x00FF; // The low byte  
     
     while(ros::ok())
     {
@@ -143,6 +145,9 @@ int main(int argc, char **argv)
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
+        
+        *p_tx_buffer++ = node.Pack[0];
+        *p_tx_buffer++ = node.Pack[1];
 
         /* *p_tx_buffer++ = node._AccX.data_byte[0];
         *p_tx_buffer++ = node._AccX.data_byte[1];

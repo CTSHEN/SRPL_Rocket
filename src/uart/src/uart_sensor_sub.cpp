@@ -16,22 +16,22 @@ namespace uart_comm
     // Callback Functions
     void UartSensorListener::ImuCb(const sensor_msgs::Imu::ConstPtr &msg)
     {
-        _AccX.data = half((float) msg->linear_acceleration.x);
-        _AccY.data = half((float) msg->linear_acceleration.y);
-        _AccZ.data = half((float) msg->linear_acceleration.z);
+        _AccX = half((float) msg->linear_acceleration.x);
+        _AccY = half((float) msg->linear_acceleration.y);
+        _AccZ = half((float) msg->linear_acceleration.z);
 
-        _GyroX.data = half((float) msg->angular_velocity.x);
-        _GyroY.data = half((float) msg->angular_velocity.y);
-        _GyroZ.data = half((float) msg->angular_velocity.z);
+        _GyroX = half((float) msg->angular_velocity.x);
+        _GyroY = half((float) msg->angular_velocity.y);
+        _GyroZ = half((float) msg->angular_velocity.z);
 
         //_ImuTimeStamp.data = 
     }
 
     void UartSensorListener::MagCb(const sensor_msgs::MagneticField::ConstPtr &msg)
     {
-        _MagX.data = half((float) msg->magnetic_field.x);
-        _MagY.data = half((float) msg->magnetic_field.y);
-        _MagZ.data = half((float) msg->magnetic_field.z);
+        _MagX = half((float) msg->magnetic_field.x);
+        _MagY = half((float) msg->magnetic_field.y);
+        _MagZ = half((float) msg->magnetic_field.z);
 
     }
 }

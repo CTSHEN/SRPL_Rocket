@@ -38,23 +38,29 @@ namespace uart_comm
             //void PoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
             //void TwistCb(const geometry_msgs::TwistWithCovarianceStamped::Constptr &msg);
 
-            union DataTrans
+            /* union DataTrans
             {
                 float data;
                 //half data;
                 //unsigned char data_byte[4];
 				uint8_t data_byte[2];
-            };
+            }; */
 
             union TimeTrans
             {
                 uint32_t time;
                 unsigned char time_byte[4];
             };
-            
+
+            boost::variant< half_float::half, uint16_t> _AccX, _AccY, _AccZ, _GyroX, _GyroY,
+            _GyroZ, _MagX, _MagY, _MagZ;
+
+            //uint8_t Pack[87]; // Total 43*16-bit + 1*8-bit
+            //uint8_t Pack[6]; // 3 16-bit data for testing
+            uint8_t Pack[2]; // Send 2 byte for testing
 
 
-			// IMU
+			/*// IMU
             DataTrans _AccX;
             DataTrans _AccY;
             DataTrans _AccZ;
@@ -85,7 +91,7 @@ namespace uart_comm
             DataTrans _OmegaX;
             DataTrans _OmegaY;
             DataTrans _OmegaZ;
-            TimeTrans _StateTimeStamp;
+            TimeTrans _StateTimeStamp;*/
             
 
         
