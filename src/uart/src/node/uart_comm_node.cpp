@@ -27,6 +27,7 @@
 #include<uart_sensor_sub.h> // ROS subscriber
 
 using namespace std;
+using half_float::half;
 
 //Define Constants
 const char *uart_target = "/dev/ttyTHS1";
@@ -44,7 +45,7 @@ int main(int argc, char **argv)
     // Create new uart_comm::UartSensorListener object
     uart_comm::UartSensorListener node;
 
-    ros::Rate loop_rate(10);
+    ros::Rate loop_rate(1);
 
     // SETUP SERIAL WORLD
     int fid = -1;
@@ -132,9 +133,14 @@ int main(int argc, char **argv)
 
     usleep(500000);   // 0.5 sec delay
     
-    node._AccX =  half(123.456);
-    node.Pack[0] = (boost::get<uint16_t>(node._AccX) || 0xFF00) >> 8; // The high byte
-    node.Pack[1] = boost::get<uint16_t>(node._AccX) || 0x00FF; // The low byte  
+    //node._AccX = half(4.5);
+    node.test = 5.5;
+    node.GetHalfBits(node.test);
+    //std::cout<<hex<<node.Pack[0]<<hex<<node.Pack[1]<<std::endl;
+    printf("%x%x\n",node.Pack[0],node.Pack[1]);
+    //node.Pack[0] = (boost::get<uint16_t>(node._AccX) || 0xFF00) >> 8; // The high byte
+    //ROS_INFO("%s", &node.Pack[0]);
+    //node.Pack[1] = boost::get<uint16_t>(node._AccX) || 0x00FF; // The low byte  
     
     while(ros::ok())
     {

@@ -52,12 +52,21 @@ namespace uart_comm
                 unsigned char time_byte[4];
             };
 
-            boost::variant< half_float::half, uint16_t> _AccX, _AccY, _AccZ, _GyroX, _GyroY,
+            half test;
+
+            boost::variant< half_float::half, std::string> _AccX, _AccY, _AccZ, _GyroX, _GyroY,
             _GyroZ, _MagX, _MagY, _MagZ;
+
+            
 
             //uint8_t Pack[87]; // Total 43*16-bit + 1*8-bit
             //uint8_t Pack[6]; // 3 16-bit data for testing
             uint8_t Pack[2]; // Send 2 byte for testing
+
+            void GetHalfBits(half f){
+             assert(sizeof(f) == sizeof(Pack));
+             memcpy(&Pack,&f,sizeof(f));   
+            }
 
 
 			/*// IMU
