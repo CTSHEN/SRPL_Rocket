@@ -3,15 +3,38 @@
     #include <sys/fcntl.h>    // Used for UART
     #include <termios.h>      // Used for UART
     #include <string>
+    #include <math.h>
+    #include "half.hpp"
 
     using namespace std;
+    using half_float::half; 
 
 
     // Define Constants
     const char *uart_target = "/dev/ttyUSB0";
     #define     NSERIAL_CHAR   256
     #define     VMINX          1
-    #define     BAUDRATE       B115200
+    #define     BAUDRATE       B921600
+
+    float changeToFloat(uint16_t data){
+        bool S = (bool) (data >> 15);
+        uint8_t E = -15 + ((data & (0b0111110000000000))>>10);
+        float M;
+        float value;
+        M = 1+ ((data & (0b0000001000000000))>>9)*pow(2,-1)+ ((data & (0b0000000100000000))>>8)*pow(2,-2)+\
+        ((data & (0b0000000010000000))>>7)*pow(2,-3)+ ((data & (0b0000000001000000))>>6)*pow(2,-4)+\
+        ((data & (0b0000000000100000))>>5)*pow(2,-5)+ ((data & (0b0000000000010000))>>4)*pow(2,-6)+\
+        ((data & (0b0000000000001000))>>3)*pow(2,-7)+ ((data & (0b0000000000000100))>>2)*pow(2,-8)+\
+        ((data & (0b0000000000000010))>>1)*pow(2,-9)+ ((data & (0b0000000000000001)))*pow(2,-10);
+
+        if (S==true){
+            value = -1 * (float) pow(2,(double)E) * M;
+        }
+        if (S==false){
+            value = 1 * (float) pow(2,(double)E) * M;
+        }  
+        return value;
+    }
 
 
 
@@ -20,6 +43,9 @@
         printf("Hello World\n\n");
 
         int ii, jj, kk;
+        uint8_t PackData[2];
+        half HFData;
+        float FData;
 
     	// SETUP SERIAL WORLD
         int fid = -1;
@@ -114,7 +140,9 @@
         unsigned char serial_message[NSERIAL_CHAR];
         bool          pickup = true;
         int           rx_length;
-        int           nread = 0;    
+        int           nread = 0;   
+        uint16_t      value = 0;
+        float         fvalue = 0; 
 
     	tcflush(fid, TCIOFLUSH);
 
@@ -132,7 +160,21 @@
 
             rx_length = read(fid, (void*)rx_buffer, VMINX);   // Filestream, buffer to store in, number of bytes to read (max)
 
-            printf("Event %d, rx_length=%d, Read=%x\n",  nread, rx_length, (uint8_t) *rx_buffer );
+            if(nread%2 !=0){
+                value = (uint8_t) *rx_buffer;
+                value = value << 8;
+                //printf("value= %x\n", value);
+            }
+            else{
+                value = value | (uint8_t) *rx_buffer;
+                //printf("value= %x\n", value );
+                fvalue = changeToFloat(value);
+                printf("value= %f \n", fvalue);                
+            }
+
+
+
+            //printf("Event %d, rx_length=%d, Read=%x\n",  nread, rx_length, (uint8_t) *rx_buffer );
 
     		if (rx_length < 0)
     		{

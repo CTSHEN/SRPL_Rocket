@@ -32,7 +32,7 @@ using half_float::half;
 //Define Constants
 const char *uart_target = "/dev/ttyTHS1";
 #define     VMINX          1
-#define     BAUDRATE       B115200
+#define     BAUDRATE       B921600
 
 int main(int argc, char **argv)
 {
@@ -134,10 +134,16 @@ int main(int argc, char **argv)
     usleep(500000);   // 0.5 sec delay
     
     //node._AccX = half(4.5);
-    node.test = 5.5;
-    node.GetHalfBits(node.test);
+    node.test = 5.53;
+    node.test2 = 1.23;
+    node.test3 = 4.45;
+    node.GetHalfBits(node.test, sizeof(node.Pack1), node.Pack1);
+    node.GetHalfBits(node.test2, sizeof(node.Pack2), node.Pack2);
+    node.GetHalfBits(node.test3, sizeof(node.Pack3), node.Pack3);
     //std::cout<<hex<<node.Pack[0]<<hex<<node.Pack[1]<<std::endl;
-    printf("%x%x\n",node.Pack[0],node.Pack[1]);
+    printf("%X%x\n",node.Pack1[1],node.Pack1[0]);
+    printf("%X%x\n",node.Pack2[1],node.Pack2[0]);
+    printf("%X%x\n",node.Pack3[1],node.Pack3[0]);
     //node.Pack[0] = (boost::get<uint16_t>(node._AccX) || 0xFF00) >> 8; // The high byte
     //ROS_INFO("%s", &node.Pack[0]);
     //node.Pack[1] = boost::get<uint16_t>(node._AccX) || 0x00FF; // The low byte  
@@ -147,13 +153,18 @@ int main(int argc, char **argv)
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[2]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[6]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
         
-        *p_tx_buffer++ = node.Pack[0];
-        *p_tx_buffer++ = node.Pack[1];
+        *p_tx_buffer++ = node.Pack1[1];
+        *p_tx_buffer++ = node.Pack1[0];
+        *p_tx_buffer++ = node.Pack2[1];
+        *p_tx_buffer++ = node.Pack2[0];
+        *p_tx_buffer++ = node.Pack3[1];
+        *p_tx_buffer++ = node.Pack3[0];
+
 
         /* *p_tx_buffer++ = node._AccX.data_byte[0];
         *p_tx_buffer++ = node._AccX.data_byte[1];

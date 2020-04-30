@@ -38,21 +38,11 @@ namespace uart_comm
             //void PoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
             //void TwistCb(const geometry_msgs::TwistWithCovarianceStamped::Constptr &msg);
 
-            /* union DataTrans
-            {
-                float data;
-                //half data;
-                //unsigned char data_byte[4];
-				uint8_t data_byte[2];
-            }; */
-
-            union TimeTrans
-            {
-                uint32_t time;
-                unsigned char time_byte[4];
-            };
+            
 
             half test;
+            half test2;
+            half test3;
 
             boost::variant< half_float::half, std::string> _AccX, _AccY, _AccZ, _GyroX, _GyroY,
             _GyroZ, _MagX, _MagY, _MagZ;
@@ -61,47 +51,19 @@ namespace uart_comm
 
             //uint8_t Pack[87]; // Total 43*16-bit + 1*8-bit
             //uint8_t Pack[6]; // 3 16-bit data for testing
-            uint8_t Pack[2]; // Send 2 byte for testing
+            char Pack1[2]; // Send 2 byte for testing
+            char Pack2[2];
+            char Pack3[2];
 
-            void GetHalfBits(half f){
-             assert(sizeof(f) == sizeof(Pack));
-             memcpy(&Pack,&f,sizeof(f));   
+            void GetHalfBits(half f, size_t PackSize, char *Pack){
+                //printf("sizeof Pack is %d\n", PackSize);
+                //printf("size of f is %d\n", sizeof(f));
+                assert(sizeof(f) == PackSize);
+                memcpy(Pack,&f,sizeof(f));   
             }
 
 
-			/*// IMU
-            DataTrans _AccX;
-            DataTrans _AccY;
-            DataTrans _AccZ;
-            DataTrans _GyroX;
-            DataTrans _GyroY;
-            DataTrans _GyroZ;
-            TimeTrans _ImuTimeStamp;
-
-            // Magnetometer
-            DataTrans _MagX;
-            DataTrans _MagY;
-            DataTrans _MagZ;
-            TimeTrans _MagTimeStamp;
-
-            // Variables for Pixy and GPS [TBC]
-
-            //States
-            DataTrans _PosX;
-            DataTrans _PosY;
-            DataTrans _PosZ;
-            DataTrans _TwistX;
-            DataTrans _TwistY;
-            DataTrans _TwistZ;
-            DataTrans _Q1;
-            DataTrans _Q2;
-            DataTrans _Q3;
-            DataTrans _Q4;
-            DataTrans _OmegaX;
-            DataTrans _OmegaY;
-            DataTrans _OmegaZ;
-            TimeTrans _StateTimeStamp;*/
-            
+			
 
         
         private:
