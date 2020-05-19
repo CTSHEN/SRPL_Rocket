@@ -45,6 +45,9 @@ int main(int argc, char **argv)
     // Create new uart_comm::UartSensorListener object
     uart_comm::UartSensorListener node;
 
+    // Initialize some system status indecator
+    node.SensorPubStatus = 0;
+
     ros::Rate loop_rate(1);
 
     // SETUP SERIAL WORLD
@@ -133,37 +136,52 @@ int main(int argc, char **argv)
 
     usleep(500000);   // 0.5 sec delay
     
-    //node._AccX = half(4.5);
-    node.test = 5.53;
-    node.test2 = 1.23;
-    node.test3 = 4.45;
-    node.GetHalfBits(node.test, sizeof(node.Pack1), node.Pack1);
-    node.GetHalfBits(node.test2, sizeof(node.Pack2), node.Pack2);
+    node.test3 = 4.5;
     node.GetHalfBits(node.test3, sizeof(node.Pack3), node.Pack3);
-    //std::cout<<hex<<node.Pack[0]<<hex<<node.Pack[1]<<std::endl;
-    printf("%X%x\n",node.Pack1[1],node.Pack1[0]);
-    printf("%X%x\n",node.Pack2[1],node.Pack2[0]);
-    printf("%X%x\n",node.Pack3[1],node.Pack3[0]);
-    //node.Pack[0] = (boost::get<uint16_t>(node._AccX) || 0xFF00) >> 8; // The high byte
-    //ROS_INFO("%s", &node.Pack[0]);
-    //node.Pack[1] = boost::get<uint16_t>(node._AccX) || 0x00FF; // The low byte  
+    
+    // Wait until data arrived
+    /*while(node.SensorPubStatus != 0xC0) // C0: IMU and Mag(testing), 0xFE for all sesnor
+    {
+        printf("SensorPubStatus: %x", node.SensorPubStatus);
+        sleep(1); //sleep 1 sec waiting for all sensor data is ready
+    }
+    printf("SensorPubStatus: %x", node.SensorPubStatus);*/
     
     while(ros::ok())
     {
+        //node.GetHalfBits(node._AccX, sizeof(node.AccXPack), node.AccXPack);
+        
+        //node.GetHalfBits(node._AccY, sizeof(node.AccYPack), node.AccYPack);
+        node.GetHalfBits(node._AccZ, sizeof(node.AccZPack), node.AccZPack);
+        printf("AccX %x%x \n", node.AccZPack[1], node.AccZPack[0]);
+
+        /*node.GetHalfBits(node._GyroX, sizeof(node.GyroXPack), node.GyroXPack);
+        node.GetHalfBits(node._GyroY, sizeof(node.GyroYPack), node.GyroYPack);
+        node.GetHalfBits(node._GyroZ, sizeof(node.GyroZPack), node.GyroZPack);
+
+        node.GetHalfBits(node._MagX, sizeof(node.MagXPack), node.MagXPack);
+        node.GetHalfBits(node._MagY, sizeof(node.MagYPack), node.MagYPack);
+        node.GetHalfBits(node._MagZ, sizeof(node.MagZPack), node.MagZPack);*/
+        
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[6]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[2]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
         
-        *p_tx_buffer++ = node.Pack1[1];
-        *p_tx_buffer++ = node.Pack1[0];
-        *p_tx_buffer++ = node.Pack2[1];
-        *p_tx_buffer++ = node.Pack2[0];
-        *p_tx_buffer++ = node.Pack3[1];
-        *p_tx_buffer++ = node.Pack3[0];
+        /**p_tx_buffer++ = node.AccXPack[1];
+        *p_tx_buffer++ = node.AccXPack[0];
+        *p_tx_buffer++ = node.AccYPack[1];
+        *p_tx_buffer++ = node.AccYPack[0];
+        *p_tx_buffer++ = node.AccZPack[1];
+        *p_tx_buffer++ = node.AccZPack[0];
+
+        printf("ACCXPACK = %x%x", node.AccXPack[1], node.AccXPack[0]);*/
+
+        *p_tx_buffer++ = node.AccZPack[1];
+        *p_tx_buffer++ = node.AccZPack[0];
 
 
         /* *p_tx_buffer++ = node._AccX.data_byte[0];

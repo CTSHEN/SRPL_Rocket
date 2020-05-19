@@ -142,6 +142,7 @@
         int           rx_length;
         int           nread = 0;   
         uint16_t      value = 0;
+        half          hvalue;
         float         fvalue = 0; 
 
     	tcflush(fid, TCIOFLUSH);
@@ -168,8 +169,11 @@
             else{
                 value = value | (uint8_t) *rx_buffer;
                 //printf("value= %x\n", value );
-                fvalue = changeToFloat(value);
-                printf("value= %f \n", fvalue);                
+                //fvalue = changeToFloat(value);
+                memcpy(&hvalue,&value,sizeof(value));
+                fvalue = hvalue.operator float();
+                //printf("value= %f \n", fvalue);                
+                printf("value= %f \n", fvalue);
             }
 
 
