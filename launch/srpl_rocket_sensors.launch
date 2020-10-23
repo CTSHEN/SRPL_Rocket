@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- Launch IMU adis16470 and madgwick filter-->
+    <include file="$(find adi_driver)/launch/adis16470.launch"/>
+    <include file="$(find razor_imu_9dof)/launch/razor-pub-imu-mag.launch"/>
+
+    <!--<node pkg="srpl-rocket" type="uart_com_node" name="uart_comm_node" output="screen"/>-->
+
+</launch>

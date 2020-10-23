@@ -1,0 +1,12 @@
+<launch>
+
+	<arg name="param_file_name" default="SRPL_Pixy" doc="SRPL_Pixy"/>
+	<arg name="node_name" default="pixy_driver_node" doc="name of the node"/>
+	<arg name="pkg_name" default="srpl_rocket" doc="name of the package"/>
+	<node  pkg="$(arg pkg_name)" type="$(arg node_name)" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+	    <rosparam command="load" file="$(find srpl_rocket)/config/$(arg param_file_name).yaml"/>
+	 </node>
+
+
+
+</launch>
