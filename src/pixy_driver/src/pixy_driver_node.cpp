@@ -204,9 +204,9 @@ int main(int argc, char **argv)
     n.param("i2c_addr",i2c_addr,0x54);
     n.param<std::string>(std::string("frame_id"), frame_id,
 			std::string("pixy_frame"));
-    ros::Publisher publisher_ = n.advertise<pixy_msgs::PixyData>("block_data", 50.0);
+    ros::Publisher publisher_ = n.advertise<pixy_msgs::PixyData>("block_data", 1); //CTSHEN
 
-	ros::Rate loop_rate(50);    
+	ros::Rate loop_rate(50);  // CTSHEN  
 	
 	int fd;
     //I2CDevice device;
@@ -247,7 +247,8 @@ int main(int argc, char **argv)
 
 	while(ros::ok){ //TODO
 		
-        blockCount = getBlocks(10);
+        blockCount = getBlocks(1);
+        block_data.blocks.clear();
         block_data.header.stamp = ros::Time::now();
         // Assume only one block
         pixy_msgs::PixyBlock pixy_block;
