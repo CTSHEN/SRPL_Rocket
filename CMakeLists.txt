@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   std_msgs
   sensor_msgs
+  pixy_msgs
 
 )
 
@@ -120,6 +121,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include/srpl_rocket/uart
+  include/srpl_rocket/libi2c/src
   /home/srpl-nano1/Documents/boost_1_72_0/boost
   ${catkin_INCLUDE_DIRS}
 )
@@ -138,6 +140,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
  add_executable(uart_comm_node src/uart/src/node/uart_comm_node.cpp src/uart/src/uart_sensor_sub.cpp)
+ add_executable(pixy_driver_node src/pixy_driver/src/pixy_driver_node.cpp include/srpl_rocket/libi2c/src/i2c.c)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,12 +151,14 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_dependencies(pixy_driver_node pixy_msgs)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(uart_comm_node
+ target_link_libraries(uart_comm_node 
    ${catkin_LIBRARIES}
 #  include/srpl_rocket/uart/uart_sensor_sub.h
  )
+ target_link_libraries(pixy_driver_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

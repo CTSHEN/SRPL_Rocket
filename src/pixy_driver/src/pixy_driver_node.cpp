@@ -265,8 +265,8 @@ int main(int argc, char **argv)
         publisher_.publish(block_data);
 
 
-        printf(" Sig: %" PRIu16 ",x: %" PRIu16 ",y: %" PRIu16 "\n", g_blocks[0].signature, g_blocks[0].x, g_blocks[0].y);
-        printf("blockCount =%" PRId16 "\n", blockCount);
+        //printf(" Sig: %" PRIu16 ",x: %" PRIu16 ",y: %" PRIu16 "\n", g_blocks[0].signature, g_blocks[0].x, g_blocks[0].y);
+        //printf("blockCount =%" PRId16 "\n", blockCount);
         g_blocks->reset();
 
         ros::spinOnce();
