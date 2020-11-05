@@ -1,2 +1,3 @@
 # pixy_driver_node
 i2c_addr: 0x54
+frame_id: "pixy0_frame"
