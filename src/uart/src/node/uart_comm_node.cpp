@@ -149,39 +149,50 @@ int main(int argc, char **argv)
     
     while(ros::ok())
     {
-        //node.GetHalfBits(node._AccX, sizeof(node.AccXPack), node.AccXPack);
-        
-        //node.GetHalfBits(node._AccY, sizeof(node.AccYPack), node.AccYPack);
+        node.GetHalfBits(node._AccX, sizeof(node.AccXPack), node.AccXPack);
+        node.GetHalfBits(node._AccY, sizeof(node.AccYPack), node.AccYPack);
         node.GetHalfBits(node._AccZ, sizeof(node.AccZPack), node.AccZPack);
-        printf("AccX %x%x \n", node.AccZPack[1], node.AccZPack[0]);
+        //printf("AccX %x%x \n", node.AccZPack[1], node.AccZPack[0]);
 
-        /*node.GetHalfBits(node._GyroX, sizeof(node.GyroXPack), node.GyroXPack);
+        node.GetHalfBits(node._GyroX, sizeof(node.GyroXPack), node.GyroXPack);
         node.GetHalfBits(node._GyroY, sizeof(node.GyroYPack), node.GyroYPack);
         node.GetHalfBits(node._GyroZ, sizeof(node.GyroZPack), node.GyroZPack);
 
         node.GetHalfBits(node._MagX, sizeof(node.MagXPack), node.MagXPack);
         node.GetHalfBits(node._MagY, sizeof(node.MagYPack), node.MagYPack);
-        node.GetHalfBits(node._MagZ, sizeof(node.MagZPack), node.MagZPack);*/
+        node.GetHalfBits(node._MagZ, sizeof(node.MagZPack), node.MagZPack);
         
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[2]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[18]; // Accel, Gyro and Mag 36
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
         
-        /**p_tx_buffer++ = node.AccXPack[1];
+        *p_tx_buffer++ = node.AccXPack[1];
         *p_tx_buffer++ = node.AccXPack[0];
         *p_tx_buffer++ = node.AccYPack[1];
         *p_tx_buffer++ = node.AccYPack[0];
         *p_tx_buffer++ = node.AccZPack[1];
         *p_tx_buffer++ = node.AccZPack[0];
+        //------------------------------------//
+        *p_tx_buffer++ = node.GyroXPack[1];
+        *p_tx_buffer++ = node.GyroXPack[0];
+        *p_tx_buffer++ = node.GyroYPack[1];
+        *p_tx_buffer++ = node.GyroYPack[0];
+        *p_tx_buffer++ = node.GyroZPack[1];
+        *p_tx_buffer++ = node.GyroZPack[0];
+        //------------------------------------//
+        *p_tx_buffer++ = node.MagXPack[1];
+        *p_tx_buffer++ = node.MagXPack[0];
+        *p_tx_buffer++ = node.MagYPack[1];
+        *p_tx_buffer++ = node.MagYPack[0];
+        *p_tx_buffer++ = node.MagZPack[1];
+        *p_tx_buffer++ = node.MagZPack[0];
+        
 
-        printf("ACCXPACK = %x%x", node.AccXPack[1], node.AccXPack[0]);*/
-
-        *p_tx_buffer++ = node.AccZPack[1];
-        *p_tx_buffer++ = node.AccZPack[0];
+        //printf("ACCXPACK = %x%x", node.AccXPack[1], node.AccXPack[0]);
 
 
         /* *p_tx_buffer++ = node._AccX.data_byte[0];

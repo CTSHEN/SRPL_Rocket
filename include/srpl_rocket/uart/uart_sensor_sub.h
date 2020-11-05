@@ -8,7 +8,9 @@
 // sensor data lib
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
-//***[TBC] Need to include lib for pixy msgs***
+#include <pixy_msgs/PixyData.h>
+#include <pixy_msgs/PixyBlock.h>
+
 //***[TBC] Need to include lib for GPS msgs***
 
 // states data lib
@@ -32,8 +34,12 @@ namespace uart_comm
 
             void ImuCb(const sensor_msgs::Imu::ConstPtr &msg );
             void MagCb(const sensor_msgs::MagneticField::ConstPtr &msg);
-            //***[TBC] Need to add a new Cb for pixy***
-            //***[TBC] Need to add a new Cb for GPS***
+
+            //void Pixy0Cb(const pixy_msgs::PixyData::ConstPtr &msg);
+            //void Pixy120Cb(const pixy_msgs::PixyData::ConstPtr &msg);
+            //void Pixy240Cb(const pixy_msgs::PixyData::ConstPtr &msg); //TODO change to float64MultiArray
+            
+            //TODO Need to add a new Cb for GPS***
 
             //void PoseCb(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr &msg);
             //void TwistCb(const geometry_msgs::TwistWithCovarianceStamped::Constptr &msg);
