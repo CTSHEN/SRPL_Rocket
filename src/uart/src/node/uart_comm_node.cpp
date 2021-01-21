@@ -136,8 +136,7 @@ int main(int argc, char **argv)
 
     usleep(500000);   // 0.5 sec delay
     
-    node.test3 = 4.5;
-    node.GetHalfBits(node.test3, sizeof(node.Pack3), node.Pack3);
+    
     
     // Wait until data arrived
     /*while(node.SensorPubStatus != 0xC0) // C0: IMU and Mag(testing), 0xFE for all sesnor
@@ -146,26 +145,82 @@ int main(int argc, char **argv)
         sleep(1); //sleep 1 sec waiting for all sensor data is ready
     }
     printf("SensorPubStatus: %x", node.SensorPubStatus);*/
+
+    /***** Fake Data to fill the blank****/
+    node.u1 = 0;
+    node.v1 = 0;
+    node.u2 = 0;
+    node.v2 = 0;
+    node.u3 = 0;
+    node.v3 = 0;
+    node.GPSAlt = 0;
+    node.GPSLong = 0;
+    node.GPSLat = 0;
+    node.Quat1 = 0;
+    node.Quat2 = 0;
+    node.Quat3 = 0;
+    node.Quat4 = 0;
+    node.wX = 0;
+    node.wY = 0;
+    node.wZ = 0;
+    node.PosX = 0;
+    node.PosY = 0;
+    node.PosZ= 0;
+    node.VelX = 0;
+    node.VelY = 0;
+    node.VelZ = 0;
+    /***** Fake Data to fill the blank****/
+
     
     while(ros::ok())
     {
-        node.GetHalfBits(node._AccX, sizeof(node.AccXPack), node.AccXPack);
-        node.GetHalfBits(node._AccY, sizeof(node.AccYPack), node.AccYPack);
-        node.GetHalfBits(node._AccZ, sizeof(node.AccZPack), node.AccZPack);
+        node.GetHalfBits(node.AccX, sizeof(node.AccXPack), node.AccXPack);
+        node.GetHalfBits(node.AccY, sizeof(node.AccYPack), node.AccYPack);
+        node.GetHalfBits(node.AccZ, sizeof(node.AccZPack), node.AccZPack);
         //printf("AccX %x%x \n", node.AccZPack[1], node.AccZPack[0]);
 
-        node.GetHalfBits(node._GyroX, sizeof(node.GyroXPack), node.GyroXPack);
-        node.GetHalfBits(node._GyroY, sizeof(node.GyroYPack), node.GyroYPack);
-        node.GetHalfBits(node._GyroZ, sizeof(node.GyroZPack), node.GyroZPack);
+        node.GetHalfBits(node.GyroX, sizeof(node.GyroXPack), node.GyroXPack);
+        node.GetHalfBits(node.GyroY, sizeof(node.GyroYPack), node.GyroYPack);
+        node.GetHalfBits(node.GyroZ, sizeof(node.GyroZPack), node.GyroZPack);
 
-        node.GetHalfBits(node._MagX, sizeof(node.MagXPack), node.MagXPack);
-        node.GetHalfBits(node._MagY, sizeof(node.MagYPack), node.MagYPack);
-        node.GetHalfBits(node._MagZ, sizeof(node.MagZPack), node.MagZPack);
+        node.GetHalfBits(node.MagX, sizeof(node.MagXPack), node.MagXPack);
+        node.GetHalfBits(node.MagY, sizeof(node.MagYPack), node.MagYPack);
+        node.GetHalfBits(node.MagZ, sizeof(node.MagZPack), node.MagZPack);
+
+        node.GetHalfBits(node.u1, sizeof(node.u1Pack), node.u1Pack);
+        node.GetHalfBits(node.v1, sizeof(node.v1Pack), node.v1Pack);
+        node.GetHalfBits(node.u2, sizeof(node.u2Pack), node.u1Pack);
+        node.GetHalfBits(node.v2, sizeof(node.v2Pack), node.v1Pack);
+        node.GetHalfBits(node.u3, sizeof(node.u3Pack), node.u1Pack);
+        node.GetHalfBits(node.v3, sizeof(node.v3Pack), node.v1Pack);
+
+        node.GetHalfBits(node.GPSAlt, sizeof(node.GPSAltPack), node.GPSAltPack);
+        node.GetHalfBits(node.GPSLong, sizeof(node.GPSLongPack), node.GPSLongPack);
+        node.GetHalfBits(node.GPSLat, sizeof(node.GPSLatPack), node.GPSLatPack);
+
+        node.GetHalfBits(node.Quat1, sizeof(node.Quat1Pack), node.Quat1Pack);
+        node.GetHalfBits(node.Quat2, sizeof(node.Quat2Pack), node.Quat2Pack);
+        node.GetHalfBits(node.Quat3, sizeof(node.Quat3Pack), node.Quat3Pack);
+        node.GetHalfBits(node.Quat4, sizeof(node.Quat4Pack), node.Quat4Pack);
+
+        node.GetHalfBits(node.wX, sizeof(node.wXPack), node.wXPack);
+        node.GetHalfBits(node.wY, sizeof(node.wYPack), node.wYPack);
+        node.GetHalfBits(node.wZ, sizeof(node.wZPack), node.wZPack);
+
+        node.GetHalfBits(node.PosX, sizeof(node.PosXPack), node.PosXPack);
+        node.GetHalfBits(node.PosY, sizeof(node.PosYPack), node.PosYPack);
+        node.GetHalfBits(node.PosZ, sizeof(node.PosZPack), node.PosZPack);
+
+        node.GetHalfBits(node.VelX, sizeof(node.VelXPack), node.VelXPack);
+        node.GetHalfBits(node.VelY, sizeof(node.VelYPack), node.VelYPack);
+        node.GetHalfBits(node.VelZ, sizeof(node.VelZPack), node.VelZPack);
+
+        
         
         //--------------------------------------------------------------
         // TRANSMITTING BYTES
         //--------------------------------------------------------------
-        unsigned char tx_buffer[18]; // Accel, Gyro and Mag 36
+        unsigned char tx_buffer[63];
         unsigned char *p_tx_buffer;
     	
         p_tx_buffer = &tx_buffer[0];
@@ -190,56 +245,59 @@ int main(int argc, char **argv)
         *p_tx_buffer++ = node.MagYPack[0];
         *p_tx_buffer++ = node.MagZPack[1];
         *p_tx_buffer++ = node.MagZPack[0];
-        
+        //------------------------------------//
+        *p_tx_buffer++ = node.u1Pack[0];
+        *p_tx_buffer++ = node.u1Pack[1];
+        *p_tx_buffer++ = node.v1Pack[0];
+        *p_tx_buffer++ = node.v1Pack[1];
+        *p_tx_buffer++ = node.u2Pack[0];
+        *p_tx_buffer++ = node.u2Pack[1];
+        *p_tx_buffer++ = node.v2Pack[0];
+        *p_tx_buffer++ = node.v2Pack[1];
+        *p_tx_buffer++ = node.u3Pack[0];
+        *p_tx_buffer++ = node.u3Pack[1];
+        *p_tx_buffer++ = node.v3Pack[0];
+        *p_tx_buffer++ = node.v3Pack[1];
+        //-----------------------------------//
+        *p_tx_buffer++ = node.GPS_Status;
+        //-----------------------------------//
+        *p_tx_buffer++ = node.GPSAltPack[0];
+        *p_tx_buffer++ = node.GPSAltPack[1];
+        *p_tx_buffer++ = node.GPSLongPack[0];
+        *p_tx_buffer++ = node.GPSLongPack[1];
+        *p_tx_buffer++ = node.GPSLatPack[0];
+        *p_tx_buffer++ = node.GPSLatPack[1];
+        //-----------------------------------//
+        *p_tx_buffer++ = node.Quat1Pack[0];
+        *p_tx_buffer++ = node.Quat1Pack[1];
+        *p_tx_buffer++ = node.Quat2Pack[0];
+        *p_tx_buffer++ = node.Quat2Pack[1];
+        *p_tx_buffer++ = node.Quat3Pack[0];
+        *p_tx_buffer++ = node.Quat3Pack[1];
+        *p_tx_buffer++ = node.Quat4Pack[0];
+        *p_tx_buffer++ = node.Quat4Pack[1];
+        //-----------------------------------//
+        *p_tx_buffer++ = node.wXPack[0];
+        *p_tx_buffer++ = node.wXPack[1];
+        *p_tx_buffer++ = node.wYPack[0];
+        *p_tx_buffer++ = node.wYPack[1];
+        *p_tx_buffer++ = node.wZPack[0];
+        *p_tx_buffer++ = node.wZPack[1];
+        //-----------------------------------//
+        *p_tx_buffer++ = node.PosXPack[0];
+        *p_tx_buffer++ = node.PosXPack[1];
+        *p_tx_buffer++ = node.PosYPack[0];
+        *p_tx_buffer++ = node.PosYPack[1];
+        *p_tx_buffer++ = node.PosZPack[0];
+        *p_tx_buffer++ = node.PosZPack[1];
+        //-----------------------------------//
+        *p_tx_buffer++ = node.VelXPack[0];
+        *p_tx_buffer++ = node.VelXPack[1];
+        *p_tx_buffer++ = node.VelYPack[0];
+        *p_tx_buffer++ = node.VelYPack[1];
+        *p_tx_buffer++ = node.VelZPack[0];
+        *p_tx_buffer++ = node.VelZPack[1];
 
-        //printf("ACCXPACK = %x%x", node.AccXPack[1], node.AccXPack[0]);
-
-
-        /* *p_tx_buffer++ = node._AccX.data_byte[0];
-        *p_tx_buffer++ = node._AccX.data_byte[1];
-        *p_tx_buffer++ = node._AccX.data_byte[2];
-        *p_tx_buffer++ = node._AccX.data_byte[3];
-        *p_tx_buffer++ = node._AccY.data_byte[0];
-        *p_tx_buffer++ = node._AccY.data_byte[1];
-        *p_tx_buffer++ = node._AccY.data_byte[2];
-        *p_tx_buffer++ = node._AccY.data_byte[3];
-        *p_tx_buffer++ = node._AccZ.data_byte[0];
-        *p_tx_buffer++ = node._AccZ.data_byte[1];
-        *p_tx_buffer++ = node._AccZ.data_byte[2];
-        *p_tx_buffer++ = node._AccZ.data_byte[3];
-        *p_tx_buffer++ = node._GyroX.data_byte[0];
-        *p_tx_buffer++ = node._GyroX.data_byte[1];
-        *p_tx_buffer++ = node._GyroX.data_byte[2];
-        *p_tx_buffer++ = node._GyroX.data_byte[3];
-        *p_tx_buffer++ = node._GyroY.data_byte[0];
-        *p_tx_buffer++ = node._GyroY.data_byte[1];
-        *p_tx_buffer++ = node._GyroY.data_byte[2];
-        *p_tx_buffer++ = node._GyroY.data_byte[3];
-        *p_tx_buffer++ = node._GyroZ.data_byte[0];
-        *p_tx_buffer++ = node._GyroZ.data_byte[1];
-        *p_tx_buffer++ = node._GyroZ.data_byte[2];
-        *p_tx_buffer++ = node._GyroZ.data_byte[3];
-        *p_tx_buffer++ = node._MagX.data_byte[0];
-        *p_tx_buffer++ = node._MagX.data_byte[1];
-        *p_tx_buffer++ = node._MagX.data_byte[2];
-        *p_tx_buffer++ = node._MagX.data_byte[3];
-        *p_tx_buffer++ = node._MagY.data_byte[0];
-        *p_tx_buffer++ = node._MagY.data_byte[1];
-        *p_tx_buffer++ = node._MagY.data_byte[2];
-        *p_tx_buffer++ = node._MagY.data_byte[3];
-        *p_tx_buffer++ = node._MagZ.data_byte[0];
-        *p_tx_buffer++ = node._MagZ.data_byte[1];
-        *p_tx_buffer++ = node._MagZ.data_byte[2];
-        *p_tx_buffer++ = node._MagZ.data_byte[3];*/
-
-
-
-	
-
-
-
-
-        //printf("fid 1=%d\n", fid );
     	
         if (fid != -1)
         {
