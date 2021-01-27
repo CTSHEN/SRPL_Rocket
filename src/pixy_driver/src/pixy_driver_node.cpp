@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "pixy_driver");
 
-    ros::NodeHandle n;
+    ros::NodeHandle n("~");
 	ROS_INFO("Pixy Driver Node Start");
     // get parameters
     
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
 			std::string("pixy_frame"));
     ros::Publisher publisher_ = n.advertise<pixy_msgs::PixyData>("block_data", 1); //CTSHEN
 
-	ros::Rate loop_rate(50);  // CTSHEN  
+	ros::Rate loop_rate(1);  // CTSHEN  
 	
 	int fd;
     //I2CDevice device;
@@ -250,6 +250,7 @@ int main(int argc, char **argv)
         blockCount = getBlocks(1);
         block_data.blocks.clear();
         block_data.header.stamp = ros::Time::now();
+        block_data.header.frame_id = frame_id;
         // Assume only one block
         pixy_msgs::PixyBlock pixy_block;
         pixy_block.signature = g_blocks[0].signature;
@@ -262,7 +263,10 @@ int main(int argc, char **argv)
         block_data.blocks.push_back(pixy_block);
 
         //publish the message
-        publisher_.publish(block_data);
+        if (pixy_block.signature != 0){
+          publisher_.publish(block_data);
+        }
+        
 
 
         //printf(" Sig: %" PRIu16 ",x: %" PRIu16 ",y: %" PRIu16 "\n", g_blocks[0].signature, g_blocks[0].x, g_blocks[0].y);

@@ -5,7 +5,33 @@
 	<arg name="node_name" default="pixy_driver_node" doc="name of the node"/>
 	<arg name="pkg_name" default="srpl_rocket" doc="name of the package"/>
 	<node  pkg="$(arg pkg_name)" type="$(arg node_name)" name="$(arg node_name)" output="screen" clear_params="true" required="true">
-	    <rosparam command="load" file="$(find srpl_rocket)/config/$(arg param_file_name).yaml"/>
+	    <!--rosparam command="load" file="$(find srpl_rocket)/config/$(arg param_file_name).yaml"/-->
+		<param name="i2c_addr" type="int" value="84" />  <!-- 0x54 -->
+		<param name="frame_id" type="str" value="pixy0_frame" />
+	 </node>
+</group>
+
+<group ns="pixy1">
+
+	<arg name="param_file_name" default="SRPL_Pixy" doc="SRPL_Pixy"/>
+	<arg name="node_name" default="pixy_driver_node" doc="name of the node"/>
+	<arg name="pkg_name" default="srpl_rocket" doc="name of the package"/>
+	<node  pkg="$(arg pkg_name)" type="$(arg node_name)" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+	    <!--rosparam command="load" file="$(find srpl_rocket)/config/$(arg param_file_name).yaml"/-->
+		<param name="i2c_addr" type="int" value="85" />  <!-- 0x55 -->
+		<param name="frame_id" type="str" value="pixy1_frame" />
+	 </node>
+</group>
+
+<group ns="pixy2">
+
+	<arg name="param_file_name" default="SRPL_Pixy" doc="SRPL_Pixy"/>
+	<arg name="node_name" default="pixy_driver_node" doc="name of the node"/>
+	<arg name="pkg_name" default="srpl_rocket" doc="name of the package"/>
+	<node  pkg="$(arg pkg_name)" type="$(arg node_name)" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+	    <!--rosparam command="load" file="$(find srpl_rocket)/config/$(arg param_file_name).yaml"/-->
+		<param name="i2c_addr" type="int" value="86" />  <!-- 0x56 -->
+		<param name="frame_id" type="str" value="pixy2_frame" />
 	 </node>
 </group>
 
